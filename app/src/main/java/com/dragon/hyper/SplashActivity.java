@@ -13,10 +13,11 @@ import com.sdk.core.ad.callback.OnAdManagerCallback;
 import com.sdk.core.ad.callback.OnShowAdDetailCallback;
 import com.sdk.core.ad.exception.AdException;
 import com.sdk.core.ad.splash.manager.AdManagerSplash;
+import com.sdk.util.logger.JJLogger;
 
 import java.io.IOException;
 
-import static com.sdk.core.ad.common.Config.SPLASH_POS;
+import static com.sdk.core.ad.common.Config.POS_SPLASH;
 
 public class SplashActivity extends AppCompatActivity implements OnAdManagerCallback,OnShowAdDetailCallback{
 
@@ -30,13 +31,14 @@ public class SplashActivity extends AppCompatActivity implements OnAdManagerCall
         mRelativeLayout = (RelativeLayout) findViewById(R.id.ad_container);
         try {
             InitSDK.init(this);
+            JJLogger.debug(true);
         } catch (AdException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
-            mAdManagerSplash = AdManagerSplash.getManagerSplash().setOnAdManagerCallback(this).checkLocalAd(SPLASH_POS);
+            mAdManagerSplash = AdManagerSplash.getManagerSplash().setOnAdManagerCallback(this).checkLocalAd(POS_SPLASH);
         } catch (AdException e) {
             e.printStackTrace();
         }
@@ -62,11 +64,15 @@ public class SplashActivity extends AppCompatActivity implements OnAdManagerCall
     public void onShowAdDetail(WebView webView) {
         Toast.makeText(this, "没做跳转", Toast.LENGTH_SHORT).show();
         Log.i(this.getClass().getSimpleName(),"跳转链接 ：" + webView.getUrl());
+        Log.v(this.getClass().getSimpleName(),"跳转链接 ：" + webView.getUrl());
+        Log.d(this.getClass().getSimpleName(),"跳转链接 ：" + webView.getUrl());
+        Log.e(this.getClass().getSimpleName(),"跳转链接 ：" + webView.getUrl());
+        Log.w(this.getClass().getSimpleName(),"跳转链接 ：" + webView.getUrl());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mAdManagerSplash.release();
+//        mAdManagerSplash.release();
     }
 }
