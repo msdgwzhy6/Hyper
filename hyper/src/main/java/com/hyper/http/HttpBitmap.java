@@ -3,9 +3,9 @@ package com.hyper.http;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.sdk.util.http.core.HttpTask;
-import com.sdk.util.http.core.callback.OnBitmapCallback;
-import com.sdk.util.http.core.callback.OnHttpCallback;
+import com.hyper.http.core.HttpTask;
+import com.hyper.http.core.callback.OnBitmapCallback;
+import com.hyper.http.core.callback.OnHttpCallback;
 
 import java.io.InputStream;
 
@@ -14,9 +14,9 @@ import java.io.InputStream;
  * function 处理图片
  */
 
-public class UtilHttpBitmap extends HttpTask<UtilHttpBitmap,Bitmap> {
+public class HttpBitmap extends HttpTask<HttpBitmap,Bitmap> {
     @SuppressWarnings("unchecked")
-    public UtilHttpBitmap setBitmapCallback(final OnBitmapCallback bitmapCallback){
+    public HttpBitmap setBitmapCallback(final OnBitmapCallback bitmapCallback){
         setOnHttpCallback(new OnHttpCallback<Bitmap>() {
             @Override
             public Bitmap onChildThread(InputStream inputStream) {

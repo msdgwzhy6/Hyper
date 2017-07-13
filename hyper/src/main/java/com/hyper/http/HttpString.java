@@ -2,10 +2,10 @@ package com.hyper.http;
 
 import android.text.TextUtils;
 
-import com.sdk.util.http.core.HttpTask;
-import com.sdk.util.http.core.callback.OnHttpCallback;
-import com.sdk.util.http.core.callback.OnStringCallback;
-import com.sdk.util.logger.JJLogger;
+import com.hyper.http.core.HttpTask;
+import com.hyper.http.core.callback.OnHttpCallback;
+import com.hyper.http.core.callback.OnStringCallback;
+import com.hyper.logger.JJLogger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,15 +18,15 @@ import java.io.InputStreamReader;
  * function 处理字符串
  */
 
-public class UtilHttpString extends HttpTask<UtilHttpString,String> {
+public class HttpString extends HttpTask<HttpString,String> {
     private  String mCharset = "utf-8";
     @SuppressWarnings("unchecked")
-    public UtilHttpString setCharset(String  charset){
+    public HttpString setCharset(String  charset){
         mCharset  = charset;
         return   this;
     }
 
-    public UtilHttpString setStringCallback(final OnStringCallback stringCallback){
+    public HttpString setStringCallback(final OnStringCallback stringCallback){
         setOnHttpCallback(new OnHttpCallback<String>() {
             @Override
             public String onChildThread(InputStream inputStream) {
@@ -34,7 +34,6 @@ public class UtilHttpString extends HttpTask<UtilHttpString,String> {
                 if (inputStream == null) {
                     return null;
                 }
-
                 try {
                     isr = new InputStreamReader(inputStream, mCharset);
                     BufferedReader br = new BufferedReader(isr);
@@ -43,7 +42,7 @@ public class UtilHttpString extends HttpTask<UtilHttpString,String> {
                     while ((line = br.readLine()) != null) {
                         if(interceptFlag ){
                             //TODO need to test
-                            JJLogger.i("interceptFlag","requestURL:" +mUrl +"canceled");
+                            JJLogger.logInfo("interceptFlag","requestURL:" +mUrl +"canceled");
                             //跳出任务
                             return null;
                         }
@@ -63,13 +62,13 @@ public class UtilHttpString extends HttpTask<UtilHttpString,String> {
                 }else {
 
                     stringCallback.onRequestFailure(new NullPointerException(""), "");
-                    JJLogger.i("onUISuccess","UtilHttpString:onUISuccess :"+"没有得到数据 :" +"");
+                    JJLogger.logInfo("onUISuccess","HttpString:onUISuccess :"+"没有得到数据 :" +"");
                 }
             }
             @Override
             public void onFailure(Exception e, String errorCode) {
                 stringCallback.onRequestFailure(e, errorCode);
-                JJLogger.i("onFailure","UtilHttpString:onFailure :请求的url 为："+mUrl);
+                JJLogger.logInfo("onFailure","HttpString:onFailure :请求的url 为："+mUrl);
             }
         }).startConcurrence();
         return this;
