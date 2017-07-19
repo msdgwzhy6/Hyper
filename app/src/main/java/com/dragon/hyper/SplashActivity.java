@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.webkit.WebView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -47,7 +46,7 @@ public class SplashActivity extends AppCompatActivity implements OnAdManagerCall
     @Override
     public void onAdExist() {
         try {
-            mAdManagerSplash.loadAd(mRelativeLayout).setOnShowAdDetailCallback(this);
+            mAdManagerSplash.loadAd(mRelativeLayout,this);
         } catch (AdException e) {
             e.printStackTrace();
         }
@@ -60,19 +59,16 @@ public class SplashActivity extends AppCompatActivity implements OnAdManagerCall
         finish();
     }
 
-    @Override
-    public void onShowAdDetail(WebView webView) {
-        Toast.makeText(this, "没做跳转", Toast.LENGTH_SHORT).show();
-        Log.i(this.getClass().getSimpleName(),"跳转链接 ：" + webView.getUrl());
-        Log.v(this.getClass().getSimpleName(),"跳转链接 ：" + webView.getUrl());
-        Log.d(this.getClass().getSimpleName(),"跳转链接 ：" + webView.getUrl());
-        Log.e(this.getClass().getSimpleName(),"跳转链接 ：" + webView.getUrl());
-        Log.w(this.getClass().getSimpleName(),"跳转链接 ：" + webView.getUrl());
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mAdManagerSplash.release();
+        mAdManagerSplash.release();
+    }
+
+    @Override
+    public void onShowAdDetail(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+        Log.i(this.getClass().getSimpleName(),"跳转链接 ：" +s);
     }
 }
